@@ -49,12 +49,13 @@ class ReportController extends Controller
         \PhpOffice\PhpWord\Settings::setPdfRendererPath($domPdfPath);
         \PhpOffice\PhpWord\Settings::setPdfRendererName('DomPDF');
         try {
-            $phpWord->saveAs($pathToSave);
-            $pdfConvert = IOFactory::load($pathToSave);
-            $pdfConvert->save($pathToSavePdf,'PDF');    
+            $phpWord->saveAs(storage_path($pathToSave));
+            // $pdfConvert = IOFactory::load($pathToSave);
+            // $pdfConvert->save($pathToSavePdf,'PDF');    
         } catch (Exception $e) {
         }
-        return response()->download($pathToSavePdf);
+        // return response()->download($pathToSavePdf);
+        return response()->download(storage_path($pathToSave));
 
     }
 
