@@ -20,14 +20,13 @@ class ExcelImport implements ToModel, WithHeadingRow
     public function model(array $row)
     {
         return new CPanelBot([
-            'npk_atasan'=>$row['npk_atasan'],
-            'nama_atasan'=>$row['nama_atasan'],
-            'status_atasan'=>$row['status_atasan'],
-            'no_hp_atasan'=>$row['no_hp_atasan'],
-            'npk_bawahan'=>$row['npk_bawahan'],
-            'nama_bawahan'=>$row['nama_bawahan'],
-            'status_bawahan'=>$row['status_bawahan'],
-            'no_hp_bawahan'=>$row['no_hp_bawahan'],
+            'npk'=>$row['npk'],
+            'nama'=>$row['nama'],
+            'status'=>$row['status'],
+            'no_hp'=>$row['no_hp'],
+            'email'=>$row['email'],
+            'batch'=>$row['batch'],
+            'category'=>$row['category'],
             'survey_link'=>$row['survey_link'],
         ]);
     }

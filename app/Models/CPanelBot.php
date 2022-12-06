@@ -15,15 +15,15 @@ class CPanelBot extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'npk_atasan',
-        'nama_atasan',
-        'status_atasan',
-        'no_hp_atasan',
-        'npk_bawahan',
-        'nama_bawahan',
-        'status_bawahan',
-        'no_hp_bawahan',
+        'npk',
+        'nama',
+        'email',
+        'no_hp',
+        'batch',
         'survey_link',
+        'status',
+        'category',
+
     ];
     public $timestamps = false;
 }

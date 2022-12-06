@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use DB;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\ExcelImport;
+use App\Models\CPanelBot;
 
 
 class ImportExcelController extends Controller
@@ -17,6 +18,7 @@ class ImportExcelController extends Controller
 
     public function import(Request $request)
     {
+        CPanelBot::truncate();
         $data = $request->file('select_file');
         $namafile = $data->getClientOriginalName();
         $data->move('UploadsImport',$namafile);

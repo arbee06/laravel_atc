@@ -10,7 +10,6 @@ class AdminController extends Controller
     public function admin()
     {
         $user = User::all();
-        // dd($user);
         return view("admin.admin",compact(['user']));
     }
 

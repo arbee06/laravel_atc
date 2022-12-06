@@ -6,7 +6,7 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header">
-                    {{ __('Respondent BOT Management') }}
+                    {{ __('Respondents') }}
                     
                     <button style="float: right;" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
                     Import Data
@@ -50,71 +50,67 @@
                 <div class="card-body">
                     <table id="qmli-table" class="table">
                         <tr>
-                            <th>NPK Atasan</th>
-                            <th>Nama Atasan</th>
-                            <th>Status Atasan</th>
-                            <th>No HP Atasan</th>
-                            <th>NPK Subordinate</th>
-                            <th>Nama Subordinate</th>
-                            <th>Status Subordinate</th>
-                            <th>No HP Subordinate</th>
+                            <th>NPK</th>
+                            <th>Nama</th>
+                            <th>Email</th>
+                            <th>No HP</th>
+                            <th>Batch</th>
                             <th>Survey Link</th>
+                            <th>Status</th>
+                            <th>Category</th>
                             <th class="text-center">Action</th>
                         </tr>
                     @foreach($data as $row)
                         <tr>
-                            <td style="text-align: center;">{{$row->npk_atasan}}</td>
-                            <td style="text-align: center;">{{$row->nama_atasan}}</td>
-                            <td style="text-align: center;">{{$row->status_atasan}}</td>
-                            <td style="text-align: center;">{{$row->no_hp_atasan}}</td>
-                            <td style="text-align: center;">{{$row->npk_bawahan}}</td>
-                            <td style="text-align: center;">{{$row->nama_bawahan}}</td>
-                            <td style="text-align: center;">{{$row->status_bawahan}}</td>
-                            <td style="text-align: center;">{{$row->no_hp_bawahan}}</td>
+                            <td style="text-align: center;">{{$row->npk}}</td>
+                            <td style="text-align: center;">{{$row->nama}}</td>
+                            <td style="text-align: center;">{{$row->email}}</td>
+                            <td style="text-align: center;">{{$row->no_hp}}</td>
+                            <td style="text-align: center;">{{$row->batch}}</td>
                             <td style="text-align: center;">{{$row->survey_link}}</td>
+                            <td style="text-align: center;">{{$row->status}}</td>
+                            <td style="text-align: center;">{{$row->category}}</td>
+
+
                             <td class="text-center align-middle">
                             <div class="btn-group align-top">
-                                <form id="sendChatForm_{{$row->npk_atasan}}" action="{{ route('sendChat') }}" method="POST" style="">
+                                <form id="sendChatForm_{{$row->npk}}" action="{{ route('sendChat') }}" method="POST" style="">
                                     @csrf
-                                        <input type="text" id="data_atasan_{{$row->no_hp_atasan}}" name="data_atasan_{{$row->no_hp_atasan}}"  value="{{$row->no_hp_atasan.';'.$row->status_atasan.';'.$row->nama_atasan.';'.$row->survey_link}}" hidden>
-                                        <input type="text" id="data_bawahan_{{$row->no_hp_bawahan}}" name="data_bawahan_{{$row->no_hp_bawahan}}" value="{{$row->no_hp_bawahan.';'.$row->status_bawahan.';'.$row->nama_bawahan.';'.$row->survey_link}}" hidden>
+                                        <input type="text" id="data_{{$row->no_hp}}" name="data_{{$row->no_hp}}"  value="{{$row->no_hp.';'.$row->status.';'.$row->nama.';'.$row->survey_link.';'.$row->npk}}" hidden>
                                         <a class="btn btn-info"
-                                        href="{{ route('sendChat') }}" onclick="event.preventDefault();document.getElementById('sendChatForm_{{$row->npk_atasan}}').submit();"
+                                        href="{{ route('sendChat') }}" onclick="event.preventDefault();document.getElementById('sendChatForm_{{$row->npk}}').submit();"
                                         id="sendChat"> Remind
                                         </a>
                                 </form>
-                                <form id="sendImageForm_{{$row->npk_atasan}}" action="{{ route('sendImage') }}" method="POST" style="">
+                                <!-- <form id="sendImageForm_{{$row->npk}}" action="{{ route('sendImage') }}" method="POST" style="">
                                     @csrf
-                                        <input type="text" id="data_atasan_{{$row->no_hp_atasan}}" name="data_atasan_{{$row->no_hp_atasan}}"  value="{{$row->no_hp_atasan.':'.$row->status_atasan.':'.$row->nama_atasan}}" hidden>
-                                        <input type="text" id="data_bawahan_{{$row->no_hp_bawahan}}" name="data_bawahan_{{$row->no_hp_bawahan}}" value="{{$row->no_hp_bawahan.':'.$row->status_bawahan.':'.$row->nama_bawahan}}" hidden>
+                                        <input type="text" id="data_{{$row->no_hp}}" name="data_{{$row->no_hp}}"  value="{{$row->no_hp.':'.$row->status.':'.$row->nama}}" hidden>
                                         <a class="btn btn-info"
-                                        href="{{ route('sendImage') }}" onclick="event.preventDefault();document.getElementById('sendImageForm_{{$row->npk_atasan}}').submit();"
+                                        href="{{ route('sendImage') }}" onclick="event.preventDefault();document.getElementById('sendImageForm_{{$row->npk}}').submit();"
                                         id="sendImage"> Image
                                         </a>
                                 </form>
-                                <form id="sendFileForm_{{$row->npk_atasan}}" action="{{ route('sendFile') }}" method="POST" style="">
+                                <form id="sendFileForm_{{$row->npk}}" action="{{ route('sendFile') }}" method="POST" style="">
                                     @csrf
-                                        <input type="text" id="data_atasan_{{$row->no_hp_atasan}}" name="data_atasan_{{$row->no_hp_atasan}}"  value="{{$row->no_hp_atasan.':'.$row->status_atasan.':'.$row->nama_atasan}}" hidden>
-                                        <input type="text" id="data_bawahan_{{$row->no_hp_bawahan}}" name="data_bawahan_{{$row->no_hp_bawahan}}" value="{{$row->no_hp_bawahan.':'.$row->status_bawahan.':'.$row->nama_bawahan}}" hidden>
+                                        <input type="text" id="data_{{$row->no_hp}}" name="data_{{$row->no_hp}}"  value="{{$row->no_hp.':'.$row->status.':'.$row->nama}}" hidden>
                                         <a class="btn btn-info"
-                                        href="{{ route('sendFile') }}" onclick="event.preventDefault();document.getElementById('sendFileForm_{{$row->npk_atasan}}').submit();"
+                                        href="{{ route('sendFile') }}" onclick="event.preventDefault();document.getElementById('sendFileForm_{{$row->npk}}').submit();"
                                         id="sendFile"> File
                                         </a>
                                 </form>
-                                <form id="sendVoiceForm_{{$row->npk_atasan}}" action="{{ route('sendVoice') }}" method="POST" style="">
+                                <form id="sendVoiceForm_{{$row->npk}}" action="{{ route('sendVoice') }}" method="POST" style="">
                                     @csrf
-                                        <input type="text" id="data_atasan_{{$row->no_hp_atasan}}" name="data_atasan_{{$row->no_hp_atasan}}"  value="{{$row->no_hp_atasan.':'.$row->status_atasan.':'.$row->nama_atasan}}" hidden>
-                                        <input type="text" id="data_bawahan_{{$row->no_hp_bawahan}}" name="data_bawahan_{{$row->no_hp_bawahan}}" value="{{$row->no_hp_bawahan.':'.$row->status_bawahan.':'.$row->nama_bawahan}}" hidden>
+                                        <input type="text" id="data_{{$row->no_hp}}" name="data_{{$row->no_hp}}"  value="{{$row->no_hp.':'.$row->status.':'.$row->nama}}" hidden>
                                         <a class="btn btn-info"
-                                        href="{{ route('sendVoice') }}" onclick="event.preventDefault();document.getElementById('sendVoiceForm_{{$row->npk_atasan}}').submit();"
+                                        href="{{ route('sendVoice') }}" onclick="event.preventDefault();document.getElementById('sendVoiceForm_{{$row->npk}}').submit();"
                                         id="sendVoice"> Voice
                                         </a>
-                                </form>
-                                <form id="report-form-{{$row->npk_atasan}}" name="report-form-{{$row->npk_atasan}}" action="{{ route('per_tabular') }}" method="POST">
+                                </form> -->
+                                <form id="report-form-{{$row->npk}}" name="report-form-{{$row->npk}}" action="{{ route('per_tabular') }}" method="POST">
                                     @csrf
-                                    <input type="text" id="data_atasan_{{$row->no_hp_atasan}}" name="data_atasan_{{$row->no_hp_atasan}}"  value="{{$row->no_hp_atasan.':'.$row->status_atasan.':'.$row->nama_atasan}}" hidden>
+                                    <input type="text" id="data_{{$row->no_hp}}" name="data_{{$row->no_hp}}"  value="{{$row->no_hp.':'.$row->status.':'.$row->nama}}" hidden>
                                     <a class="btn btn-info"
-                                        href="{{ route('per_tabular') }}" onclick="event.preventDefault();document.getElementById('report-form-{{$row->npk_atasan}}').submit();"
+                                        href="{{ route('per_tabular') }}" onclick="event.preventDefault();document.getElementById('report-form-{{$row->npk}}').submit();"
                                         id="perTabular"> PER1
                                         </a>
                                 </form>
