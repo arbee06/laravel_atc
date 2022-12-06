@@ -37,9 +37,9 @@ Route::middleware(['auth'])->group(function(){
     Route::post('/home/sendVoice', [ChatBotController::class,'sendVoice'])->name('sendVoice');
     Route::get('/home', [ImportExcelController::class,'index'])->name('home');
     Route::get('/admin', [AdminController::class,'admin'])->name('admin');
+    Route::post('/home/per_tabular', [ReportController::class,'create_per_tabular'])->name('per_tabular');
 });
 
 Auth::routes();
 Route::get('/', [HomeController::class,'index'])->name('index')->name('login');
 Route::get('/logout', [HomeController::class,'logout'])->name('index')->name('logout');
-Route::post('/home/per_tabular', [ReportController::class,'create_per_tabular'])->name('per_tabular');
