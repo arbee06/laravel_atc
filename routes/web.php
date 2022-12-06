@@ -43,4 +43,3 @@ Auth::routes();
 Route::get('/', [HomeController::class,'index'])->name('index')->name('login');
 Route::get('/logout', [HomeController::class,'logout'])->name('index')->name('logout');
 Route::post('/home/per_tabular', [ReportController::class,'create_per_tabular'])->name('per_tabular');
-
