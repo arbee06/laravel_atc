@@ -12,6 +12,7 @@
         "laravel/sanctum": "^3.0",
         "laravel/tinker": "^2.7",
         "laravel/ui": "^4.1",
+        "livewire/livewire": "^2.10",
         "maatwebsite/excel": "^3.1",
         "phpoffice/phpword": "^1.0",
         "psr/simple-cache": "2.0",

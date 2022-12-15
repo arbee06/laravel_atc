@@ -17,7 +17,6 @@
                     {{ __('You are logged in!') }}
                 </div>
                 <div class="card-footer">
-                    <a href="{{ route('home') }}" class="btn btn-primary">CPanel</a>
                     <a href="{{ route('logout') }}" class="btn btn-danger">Log Out</a>
                 </div>
             </div>

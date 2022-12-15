@@ -13,7 +13,7 @@ class ImportExcelController extends Controller
 {
     function index(){
         $data = DB::table('c_panel_bots')->get();
-        return view('botwa.home',compact(['data']));
+        return view('import_bot.index',compact(['data']));
     }
 
     public function import(Request $request)

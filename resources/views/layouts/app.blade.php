@@ -16,6 +16,12 @@
 
     <!-- datatables -->
 
+    <style>
+        .tdbreak {
+        word-break: break-all
+        }
+    </style>
+
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 </head>
@@ -59,8 +65,11 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('home') }}">
-                                        {{ __('Home') }}
+                                    <a class="dropdown-item" href="{{ route('bot_by_import') }}">
+                                        {{ __('Broadcast from Import') }}
+                                    </a>
+                                    <a class="dropdown-item" href="{{ route('bot_by_qmli') }}">
+                                        {{ __('Broadcast from QMLi') }}
                                     </a>
                                     <a class="dropdown-item" href="{{ route('admin') }}">
                                         {{ __('Admin') }}
@@ -86,16 +95,12 @@
             @yield('content')
         </main>
     </div>
+    @yield('script')
 
-    <!-- <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-    <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap5.min.js"></script>
+    <!-- <link href="{{ asset('storage/select2/css/select2.css') }}" rel="stylesheet" /> -->
 
-    <script>
-        $(document).ready(function () {
-        $('#qmli-table').DataTable();
-    });
-    </script>     -->
+    <script src="https://code.jquery.com/jquery-3.6.1.slim.min.js" integrity="sha256-w8CvhFs7iHNVUtnSP0YKEg00p9Ih13rlL9zGqvLdePA=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
 </body>
 </html>

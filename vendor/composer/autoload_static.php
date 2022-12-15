@@ -625,6 +625,7 @@ class ComposerStaticInit8d2db34e38c6f2bcb9a9e64863623f7f
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
         'App\\Http\\Controllers\\HomeController' => __DIR__ . '/../..' . '/app/Http/Controllers/HomeController.php',
         'App\\Http\\Controllers\\ImportExcelController' => __DIR__ . '/../..' . '/app/Http/Controllers/ImportExcelController.php',
+        'App\\Http\\Controllers\\QmliController' => __DIR__ . '/../..' . '/app/Http/Controllers/QmliController.php',
         'App\\Http\\Controllers\\ReportController' => __DIR__ . '/../..' . '/app/Http/Controllers/ReportController.php',
         'App\\Http\\Kernel' => __DIR__ . '/../..' . '/app/Http/Kernel.php',
         'App\\Http\\Middleware\\Authenticate' => __DIR__ . '/../..' . '/app/Http/Middleware/Authenticate.php',

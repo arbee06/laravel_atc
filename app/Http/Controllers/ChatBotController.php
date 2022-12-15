@@ -10,9 +10,10 @@ use Log;
 
 class ChatBotController extends Controller
 {
-    public function sendAll()
+    public function remindAll()
     {
         $CPanelBot = CPanelBot::all();
+        $remind_chat = "Halo %s (%s), Anda telah terdaftar dalam program PEGADAIAN Assesment Culture Transformation BATCH 1.\nMohon untuk segera menyelesaikan survey di bawah ini sebelum tanggal *2022-12-28*.\n%s";
         foreach ($CPanelBot as $field) {
             $nama = $field->nama;
             $hp = $field->no_hp;
@@ -22,8 +23,34 @@ class ChatBotController extends Controller
             if($field->status == 's'){
                 $resp = Http::post('http://188.166.214.90:3005/api/sendText',[
                     "chatId"=> $hp."@c.us",
-                    "text"=> sprintf("Halo %s (%s), Anda telah terdaftar dalam program PEGADAIAN Assesment Culture Transformation BATCH 1.\nMohon untuk segera menyelesaikan survey di bawah ini sebelum tanggal *2022-12-28*.\n%s"
+                    "text"=> sprintf($remind_chat
             ,$nama,$npk,$survey_link),
+                    "session"=> "default"
+                ]);
+            }
+        }
+        return redirect()->back();
+    }
+
+    public function prologueAll()
+    {
+        $CPanelBot = CPanelBot::all();
+        $prologue_chat = 
+        "Kepada Yth.\nBapak/Ibu %s\nProgram Gerakan Pinca Gaspol Winning Team\nPT Pegadaian\n\nPerihal : Survei untuk Program Gerakan Pinca Gaspol Winning Team
+        \nDengan hormat,\n\nDengan ini kami informasikan bahwa kami telah mengirimkan Survei kepada Bapak/Ibu melalui email. Mohon kiranya Bapak/Ibu dapat meluangkan waktu hanya 5 menit untuk segera melengkapi survei tersebut.
+        \nDibawah ini adalah Link Survei Bapak/Ibu:\n\n%s\nHasil pengisian survei diharapkan sudah kami terima selambat-lambatnya pada hari Jumat, 23 Desember 2022 pukul 17.00 WIB.\n\nKerjasama Bapak/Ibu akan sangat membantu kesuksesan dari Gerakan Gaspol Pegadaian.
+        \nTerima kasih atas perhatian serta kerjasama Bapak/Ibu.\n\n\nHormat kami,\n\nEvent Production Team\nAndrewTani & Co.";
+        foreach ($CPanelBot as $field) {
+            $nama = $field->nama;
+            $hp = $field->no_hp;
+            $hp = preg_replace('/^0/', '62', $hp);
+            $survey_link = $field->survey_link;
+            $npk = $field->npk;
+            if($field->status == 's'){
+                $resp = Http::post('http://188.166.214.90:3005/api/sendText',[
+                    "chatId"=> $hp."@c.us",
+                    "text"=> sprintf($prologue_chat
+            ,$nama,$survey_link),
                     "session"=> "default"
                 ]);
             }
@@ -46,12 +73,45 @@ class ChatBotController extends Controller
         $nama =$data[2];
         $survey_link = $data[3];
         $npk = $data[4];
+        $remind_chat = "Halo %s (%s), Anda telah terdaftar dalam program PEGADAIAN Assesment Culture Transformation BATCH 1.\nMohon untuk segera menyelesaikan survey di bawah ini sebelum tanggal *2022-12-28*.\n%s";
+        if($status == 's'){
+            $resp = Http::post('http://188.166.214.90:3005/api/sendText',[
+                "chatId"=> $hp."@c.us",
+                "text"=> sprintf($remind_chat
+            ,$nama,$npk,$survey_link),
+                "session"=> "default"
+            ]);
+        }
+        return redirect()->back();
+
+    }
+
+    public function prologueChat(Request $request)
+    {
+        $data_key ="";
+        foreach ($request->except('_token') as $key => $value) {
+            if(str_contains($key,'data')){
+                $hp_key = $key;
+            }
+        }
+        $data_value = $request->input($hp_key);
+        $data = explode(';',$data_value);
+        $hp = preg_replace('/^0/', '62', $data[0]);
+        $status = $data[1];
+        $nama =$data[2];
+        $survey_link = $data[3];
+        $npk = $data[4];
+        $prologue_chat = 
+        "Kepada Yth.\nBapak/Ibu %s\nProgram Gerakan Pinca Gaspol Winning Team\nPT Pegadaian\n\nPerihal : Survei untuk Program Gerakan Pinca Gaspol Winning Team
+        \nDengan hormat,\n\nDengan ini kami informasikan bahwa kami telah mengirimkan Survei kepada Bapak/Ibu melalui email. Mohon kiranya Bapak/Ibu dapat meluangkan waktu hanya 5 menit untuk segera melengkapi survei tersebut.
+        \nDibawah ini adalah Link Survei Bapak/Ibu:\n\n%s\nHasil pengisian survei diharapkan sudah kami terima selambat-lambatnya pada hari Jumat, 23 Desember 2022 pukul 17.00 WIB.\n\nKerjasama Bapak/Ibu akan sangat membantu kesuksesan dari Gerakan Gaspol Pegadaian.
+        \nTerima kasih atas perhatian serta kerjasama Bapak/Ibu.\n\n\nHormat kami,\n\nEvent Production Team\nAndrewTani & Co.";
         if($status == 's'){
             $resp = Http::post('http://188.166.214.90:3005/api/sendText',[
                 "chatId"=> $hp."@c.us",
                 // "text"=> $nama.", Please do your survey in link below\n".$survey_link,
-                "text"=> sprintf("Halo %s (%s), Anda telah terdaftar dalam program PEGADAIAN Assesment Culture Transformation BATCH 1.\nMohon untuk segera menyelesaikan survey di bawah ini sebelum tanggal *2022-12-28*.\n%s"
-            ,$nama,$npk,$survey_link),
+                "text"=> sprintf($prologue_chat
+            ,$nama,$survey_link),
                 "session"=> "default"
             ]);
         }

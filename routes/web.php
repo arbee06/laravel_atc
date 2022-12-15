@@ -8,6 +8,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ImportExcelController;
 use App\Http\Controllers\ChatBotController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\QmliController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,15 +30,21 @@ use App\Http\Controllers\ReportController;
 // });
 
 Route::middleware(['auth'])->group(function(){
-    Route::post('/home/import', [ImportExcelController::class,'import'])->name('import');
-    Route::post('/home/sendAll', [ChatBotController::class,'sendAll'])->name('sendAll');
-    Route::post('/home/sendChat', [ChatBotController::class,'sendChat'])->name('sendChat');
-    Route::post('/home/sendImage', [ChatBotController::class,'sendImage'])->name('sendImage');
-    Route::post('/home/sendFile', [ChatBotController::class,'sendFile'])->name('sendFile');
-    Route::post('/home/sendVoice', [ChatBotController::class,'sendVoice'])->name('sendVoice');
-    Route::get('/home', [ImportExcelController::class,'index'])->name('home');
+    Route::post('/bot_by_import/import', [ImportExcelController::class,'import'])->name('import');
+    Route::post('/bot_by_import/remindAll', [ChatBotController::class,'remindAll'])->name('remindAll');
+    Route::post('/bot_by_import/prologueAll', [ChatBotController::class,'prologueAll'])->name('prologueAll');
+    Route::post('/bot_by_import/sendChat', [ChatBotController::class,'sendChat'])->name('sendChat');
+    Route::post('/bot_by_import/prologueChat', [ChatBotController::class,'prologueChat'])->name('prologueChat');
+    Route::post('/bot_by_import/sendImage', [ChatBotController::class,'sendImage'])->name('sendImage');
+    Route::post('/bot_by_import/sendFile', [ChatBotController::class,'sendFile'])->name('sendFile');
+    Route::post('/bot_by_import/sendVoice', [ChatBotController::class,'sendVoice'])->name('sendVoice');
+    Route::post('/bot_by_import/per_tabular', [ReportController::class,'create_per_tabular'])->name('per_tabular');
+    Route::get('/bot_by_import', [ImportExcelController::class,'index'])->name('bot_by_import');
+    Route::get('/bot_by_qmli', [QmliController::class,'index'])->name('bot_by_qmli');
+    Route::get('/livewire_qmli', \App\Http\Livewire\ChatBotLivewire::class)->name('livewire_qmli');
     Route::get('/admin', [AdminController::class,'admin'])->name('admin');
-    Route::post('/home/per_tabular', [ReportController::class,'create_per_tabular'])->name('per_tabular');
+
+
 });
 
 Auth::routes();
