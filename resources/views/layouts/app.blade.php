@@ -20,6 +20,17 @@
         .tdbreak {
         word-break: break-all
         }
+        .parentnav{
+        float: right;
+
+        }
+        .navitem {
+    display: inline-block;
+    width: 150px;
+}
+        .batas{
+            padding: 50px;
+        }
     </style>
 
     <!-- Scripts -->

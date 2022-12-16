@@ -8,7 +8,7 @@
                 <div class="card-header">
                     {{ __('Respondents from QMLi') }}
                     <button wire:click="remindAll" class="btn btn-primary" style="float: right;">remind all dummy</button>
-                    <select style="float: right;" name="batch_select" id="batch_select" class="js-example-basic-single">
+                    <select name="batch_select" id="batch_select" class="form-select js-example-basic-single">
                         <option value="BATCH 1">BATCH 1</option>
                         <option value="BATCH 2">BATCH 2</option>
                         <option value="BATCH 3">BATCH 3</option>
@@ -36,21 +36,23 @@
                             <th class="text-center">Category</th>
                             <th class="text-center">Action</th>
                         </tr>
-                        @foreach($response as $row)
-                        <tr>
-                            <td style="text-align: center;" >{{$row[1]}}</td>
-                            <td style="text-align: center;">{{$row[2]}}</td>
-                            <td style="text-align: center;">{{$row[0]}}</td>
-                            <td style="text-align: center;">{{$row[5]}}</td>
-                            <td style="text-align: center;">{{$row[6]}}</td>
-                            <td style="text-align: center;width:150px;table-layout:fixed" class="tdbreak">
-                            {{$row[4]}}
-                            </td>
-                            <td style="text-align: center;">{{$row[3]}}</td>
-                            <td style="text-align: center;">{{$row[7]}}</td>
-                            
-                        </tr>
-                    @endforeach
+                        @if (isset($response))
+                            @foreach($response as $row)
+                            <tr>
+                                <td style="text-align: center;" >{{$row[1]}}</td>
+                                <td style="text-align: center;">{{$row[2]}}</td>
+                                <td style="text-align: center;">{{$row[0]}}</td>
+                                <td style="text-align: center;">{{$row[5]}}</td>
+                                <td style="text-align: center;">{{$row[6]}}</td>
+                                <td style="text-align: center;width:150px;table-layout:fixed" class="tdbreak">
+                                {{$row[4]}}
+                                </td>
+                                <td style="text-align: center;">{{$row[3]}}</td>
+                                <td style="text-align: center;">{{$row[7]}}</td>
+                                
+                            </tr>
+                            @endforeach
+                        @endif
                     </table>
                 </div>
             </div>

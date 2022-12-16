@@ -7,22 +7,32 @@
             <div class="card">
                 <div class="card-header">
                     {{ __('Respondents') }}
-                    
-                    <button style="float: right;" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                    Import Data
-                    </button>
-                    <form id="remindAllForm" action="{{ route('remindAll') }}" method="POST" style="float: right;">
-                        @csrf
-                        <a class="btn btn-primary" href="{{ route('remindAll') }}" onclick="event.preventDefault();document.getElementById('remindAllForm').submit();">
-                        Remind All
-                        </a>
-                    </form>
-                    <form id="prologueAllForm" action="{{ route('prologueAll') }}" method="POST" style="float: right;">
-                        @csrf
-                        <a class="btn btn-primary" href="{{ route('prologueAll') }}" onclick="event.preventDefault();document.getElementById('prologueAllForm').submit();">
-                        Prologue All
-                        </a>
-                    </form>
+                    <div class="parentnav">
+                        <button class="btn btn-primary navitem" type="button" data-bs-toggle="modal" data-bs-target="#modalRemind">
+                        Edit Remind
+                        </button>
+                        <button class="btn btn-primary navitem" type="button" data-bs-toggle="modal" data-bs-target="#modalPrologue">
+                        Edit Prologue
+                        </button>
+                    </div>
+                    <br><br>
+                    <div class="parentnav">
+                        <button class="btn btn-primary navitem" type="button" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                        Import Data
+                        </button>
+                        <form class="navitem" id="remindAllForm" action="{{ route('remindAll') }}" method="POST" >
+                            @csrf
+                            <a class="btn btn-primary navitem" href="{{ route('remindAll') }}" onclick="event.preventDefault();document.getElementById('remindAllForm').submit();">
+                            Remind All
+                            </a>
+                        </form>
+                        <form class="navitem" id="prologueAllForm" action="{{ route('prologueAll') }}" method="POST" >
+                            @csrf
+                            <a class="btn btn-primary navitem" href="{{ route('prologueAll') }}" onclick="event.preventDefault();document.getElementById('prologueAllForm').submit();">
+                            Prologue All
+                            </a>
+                        </form>
+                    </div>
                 </div>
 
                 <!-- Button trigger modal -->
@@ -38,14 +48,71 @@
                         @csrf
                         <div class="modal-body">
                             <div class="row mb-3">
-                                <label for="name" class="col-md-4 col-form-label text-md-end">{{ __('Input File') }}</label>
+                                <label for="file" class="col-md-4 col-form-label text-md-end">{{ __('Input File') }}</label>
                                 <div class="col-md-6">
-                                    <input id="name" type="file" class="form-control" name="select_file"  required autofocus>
+                                    <input id="file" type="file" class="form-control" name="select_file"  required autofocus>
                                 </div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                             <input type="submit" class="btn btn-primary" name="upload" value="Upload"></input>
+                        </div>
+                    </form>
+                    </div>
+                    </div>
+                </div>
+                </div>
+                <!-- Modal -->
+                <div class="modal fade" id="modalRemind" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalRemindLabel">Update Remind</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form method="POST" action="{{ url('/update_remind') }}" >
+                        @csrf
+                        <div class="modal-body">
+                            <div class="row mb-3">
+                                <label class="col-md-4 col-form-label text-md-end">{{ __('Remind Template') }}</label>
+                                    @foreach($template as $row)
+                                        @if($row->nama_template=='remind')
+                                        <textarea name="remind_area" id="remind_area" cols="2" rows="5" style="padding-right:5px;">{{  str_replace('\n', "\n", $row->content)  }}</textarea>
+                                        @endif
+                                    @endforeach
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <input type="submit" class="btn btn-primary" name="update" value="Update"></input>
+                        </div>
+                    </form>
+                    </div>
+                    </div>
+                </div>
+                </div>
+                <!-- Modal -->
+                <div class="modal fade" id="modalPrologue" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalPrologueLabel">Update Prologue</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form method="POST" action="{{ url('/update_prologue') }}" >
+                        @csrf
+                        <div class="modal-body">
+                            <div class="row mb-3">
+                                <label class="col-md-4 col-form-label text-md-end">{{ __('Prologue Template') }}</label>
+                                @foreach($template as $row)
+                                    @if($row->nama_template=='prologue')
+                                    <textarea name="prologue_area" id="prologue_area" cols="2" rows="20" style="padding-right:5px;">{{  str_replace('\n', "\n", $row->content)  }}</textarea>
+                                    @endif
+                                @endforeach
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <input type="submit" class="btn btn-primary" name="update" value="Update"></input>
                         </div>
                     </form>
                     </div>

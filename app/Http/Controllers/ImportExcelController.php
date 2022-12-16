@@ -13,7 +13,8 @@ class ImportExcelController extends Controller
 {
     function index(){
         $data = DB::table('c_panel_bots')->get();
-        return view('import_bot.index',compact(['data']));
+        $template = DB::table('chat_wa_template')->get();;
+        return view('import_bot.index',compact(['data'],'template'));
     }
 
     public function import(Request $request)

@@ -7,24 +7,29 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Input;
 use App\Models\CPanelBot;
 use Log;
+use DB;
+
 
 class ChatBotController extends Controller
 {
     public function remindAll()
     {
         $CPanelBot = CPanelBot::all();
-        $remind_chat = "Halo %s (%s), Anda telah terdaftar dalam program PEGADAIAN Assesment Culture Transformation BATCH 1.\nMohon untuk segera menyelesaikan survey di bawah ini sebelum tanggal *2022-12-28*.\n%s";
+        // $remind_chat = "Halo %s (%s), Anda telah terdaftar dalam program PEGADAIAN Assesment Culture Transformation BATCH 1.\nMohon untuk segera menyelesaikan survey di bawah ini sebelum tanggal *2022-12-28*.\n%s";
+        $template = DB::table('chat_wa_template')->get();;
+        $remind_chat = $template[0]->content;
+        $template_diganti = ["[nama]", "[npk]", "[survey_link]"];
         foreach ($CPanelBot as $field) {
             $nama = $field->nama;
             $hp = $field->no_hp;
             $hp = preg_replace('/^0/', '62', $hp);
             $survey_link = $field->survey_link;
             $npk = $field->npk;
-            if($field->status == 's'){
+            $assets = [$nama,$npk,$survey_link];
+            if($field->status == 's' || $field->status == 'S' ){
                 $resp = Http::post('http://188.166.214.90:3005/api/sendText',[
                     "chatId"=> $hp."@c.us",
-                    "text"=> sprintf($remind_chat
-            ,$nama,$npk,$survey_link),
+                    "text"=> str_replace('\n', "\n", str_replace($template_diganti, $assets, $remind_chat)),
                     "session"=> "default"
                 ]);
             }
@@ -35,22 +40,25 @@ class ChatBotController extends Controller
     public function prologueAll()
     {
         $CPanelBot = CPanelBot::all();
-        $prologue_chat = 
-        "Kepada Yth.\nBapak/Ibu %s\nProgram Gerakan Pinca Gaspol Winning Team\nPT Pegadaian\n\nPerihal : Survei untuk Program Gerakan Pinca Gaspol Winning Team
-        \nDengan hormat,\n\nDengan ini kami informasikan bahwa kami telah mengirimkan Survei kepada Bapak/Ibu melalui email. Mohon kiranya Bapak/Ibu dapat meluangkan waktu hanya 5 menit untuk segera melengkapi survei tersebut.
-        \nDibawah ini adalah Link Survei Bapak/Ibu:\n\n%s\nHasil pengisian survei diharapkan sudah kami terima selambat-lambatnya pada hari Jumat, 23 Desember 2022 pukul 17.00 WIB.\n\nKerjasama Bapak/Ibu akan sangat membantu kesuksesan dari Gerakan Gaspol Pegadaian.
-        \nTerima kasih atas perhatian serta kerjasama Bapak/Ibu.\n\n\nHormat kami,\n\nEvent Production Team\nAndrewTani & Co.";
+        // $prologue_chat = 
+        // "Kepada Yth.\nBapak/Ibu %s\nProgram Gerakan Pinca Gaspol Winning Team\nPT Pegadaian\n\nPerihal : Survei untuk Program Gerakan Pinca Gaspol Winning Team
+        // \nDengan hormat,\n\nDengan ini kami informasikan bahwa kami telah mengirimkan Survei kepada Bapak/Ibu melalui email. Mohon kiranya Bapak/Ibu dapat meluangkan waktu hanya 5 menit untuk segera melengkapi survei tersebut.
+        // \nDibawah ini adalah Link Survei Bapak/Ibu:\n\n%s\nHasil pengisian survei diharapkan sudah kami terima selambat-lambatnya pada hari Jumat, 23 Desember 2022 pukul 17.00 WIB.\n\nKerjasama Bapak/Ibu akan sangat membantu kesuksesan dari Gerakan Gaspol Pegadaian.
+        // \nTerima kasih atas perhatian serta kerjasama Bapak/Ibu.\n\n\nHormat kami,\n\nEvent Production Team\nAndrewTani & Co.";
+        $template = DB::table('chat_wa_template')->get();;
+        $prologue_chat = $template[1]->content;
+        $template_diganti = ["[nama]", "[npk]", "[survey_link]"];
         foreach ($CPanelBot as $field) {
             $nama = $field->nama;
             $hp = $field->no_hp;
             $hp = preg_replace('/^0/', '62', $hp);
             $survey_link = $field->survey_link;
             $npk = $field->npk;
-            if($field->status == 's'){
+            $assets = [$nama,$npk,$survey_link];
+            if($field->status == 's' || $field->status == 'S'){
                 $resp = Http::post('http://188.166.214.90:3005/api/sendText',[
                     "chatId"=> $hp."@c.us",
-                    "text"=> sprintf($prologue_chat
-            ,$nama,$survey_link),
+                    "text"=> str_replace('\n', "\n", str_replace($template_diganti, $assets, $prologue_chat)),
                     "session"=> "default"
                 ]);
             }
@@ -73,12 +81,15 @@ class ChatBotController extends Controller
         $nama =$data[2];
         $survey_link = $data[3];
         $npk = $data[4];
-        $remind_chat = "Halo %s (%s), Anda telah terdaftar dalam program PEGADAIAN Assesment Culture Transformation BATCH 1.\nMohon untuk segera menyelesaikan survey di bawah ini sebelum tanggal *2022-12-28*.\n%s";
+        // $remind_chat = "Halo %s (%s), Anda telah terdaftar dalam program PEGADAIAN Assesment Culture Transformation BATCH 1.\nMohon untuk segera menyelesaikan survey di bawah ini sebelum tanggal *2022-12-28*.\n%s";
+        $template = DB::table('chat_wa_template')->get();;
+        $remind_chat = $template[0]->content;
+        $template_diganti = ["[nama]", "[npk]", "[survey_link]"];
+        $assets = [$nama,$npk,$survey_link];
         if($status == 's'){
             $resp = Http::post('http://188.166.214.90:3005/api/sendText',[
                 "chatId"=> $hp."@c.us",
-                "text"=> sprintf($remind_chat
-            ,$nama,$npk,$survey_link),
+                "text"=> str_replace('\n', "\n", str_replace($template_diganti, $assets, $remind_chat)),
                 "session"=> "default"
             ]);
         }
@@ -101,17 +112,19 @@ class ChatBotController extends Controller
         $nama =$data[2];
         $survey_link = $data[3];
         $npk = $data[4];
-        $prologue_chat = 
-        "Kepada Yth.\nBapak/Ibu %s\nProgram Gerakan Pinca Gaspol Winning Team\nPT Pegadaian\n\nPerihal : Survei untuk Program Gerakan Pinca Gaspol Winning Team
-        \nDengan hormat,\n\nDengan ini kami informasikan bahwa kami telah mengirimkan Survei kepada Bapak/Ibu melalui email. Mohon kiranya Bapak/Ibu dapat meluangkan waktu hanya 5 menit untuk segera melengkapi survei tersebut.
-        \nDibawah ini adalah Link Survei Bapak/Ibu:\n\n%s\nHasil pengisian survei diharapkan sudah kami terima selambat-lambatnya pada hari Jumat, 23 Desember 2022 pukul 17.00 WIB.\n\nKerjasama Bapak/Ibu akan sangat membantu kesuksesan dari Gerakan Gaspol Pegadaian.
-        \nTerima kasih atas perhatian serta kerjasama Bapak/Ibu.\n\n\nHormat kami,\n\nEvent Production Team\nAndrewTani & Co.";
+        // $prologue_chat = 
+        // "Kepada Yth.\nBapak/Ibu %s\nProgram Gerakan Pinca Gaspol Winning Team\nPT Pegadaian\n\nPerihal : Survei untuk Program Gerakan Pinca Gaspol Winning Team
+        // \nDengan hormat,\n\nDengan ini kami informasikan bahwa kami telah mengirimkan Survei kepada Bapak/Ibu melalui email. Mohon kiranya Bapak/Ibu dapat meluangkan waktu hanya 5 menit untuk segera melengkapi survei tersebut.
+        // \nDibawah ini adalah Link Survei Bapak/Ibu:\n\n%s\nHasil pengisian survei diharapkan sudah kami terima selambat-lambatnya pada hari Jumat, 23 Desember 2022 pukul 17.00 WIB.\n\nKerjasama Bapak/Ibu akan sangat membantu kesuksesan dari Gerakan Gaspol Pegadaian.
+        // \nTerima kasih atas perhatian serta kerjasama Bapak/Ibu.\n\n\nHormat kami,\n\nEvent Production Team\nAndrewTani & Co.";
+        $template = DB::table('chat_wa_template')->get();;
+        $prologue_chat = $template[1]->content;
+        $template_diganti = ["[nama]", "[npk]", "[survey_link]"];
+        $assets = [$nama,$npk,$survey_link];
         if($status == 's'){
             $resp = Http::post('http://188.166.214.90:3005/api/sendText',[
                 "chatId"=> $hp."@c.us",
-                // "text"=> $nama.", Please do your survey in link below\n".$survey_link,
-                "text"=> sprintf($prologue_chat
-            ,$nama,$survey_link),
+                "text"=> str_replace('\n', "\n", str_replace($template_diganti, $assets, $prologue_chat)),
                 "session"=> "default"
             ]);
         }

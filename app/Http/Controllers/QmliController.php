@@ -15,13 +15,10 @@ class QmliController extends Controller
 {
     //
     public function index(){
-        // $resp = Http::get('https://www.qmlionline.com/api/fetch.php',[
-        //     "gid"=>"BATCH 3",
-        //     "token"=>"admin_qmli"
-        // ]);
-        // dd(response()->json($resp, 200));
-        // return view('qmli_bot.index',compact(['resp']));
-
+        return view('qmli_bot.index');
+    }
+    
+    public function changeBatch(){
         $requestContent = [
             'headers' => [
                 'Accept' => 'application/json',

@@ -3,10 +3,10 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\BotWaController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ImportExcelController;
 use App\Http\Controllers\ChatBotController;
+use App\Http\Controllers\ChatTemplateController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\QmliController;
 
@@ -41,10 +41,10 @@ Route::middleware(['auth'])->group(function(){
     Route::post('/bot_by_import/per_tabular', [ReportController::class,'create_per_tabular'])->name('per_tabular');
     Route::get('/bot_by_import', [ImportExcelController::class,'index'])->name('bot_by_import');
     Route::get('/bot_by_qmli', [QmliController::class,'index'])->name('bot_by_qmli');
+    Route::post('/update_remind', [ChatTemplateController::class,'updateRemind'])->name('update_remind');
+    Route::post('/update_prologue', [ChatTemplateController::class,'updatePrologue'])->name('update_prologue');
     Route::get('/livewire_qmli', \App\Http\Livewire\ChatBotLivewire::class)->name('livewire_qmli');
     Route::get('/admin', [AdminController::class,'admin'])->name('admin');
-
-
 });
 
 Auth::routes();
